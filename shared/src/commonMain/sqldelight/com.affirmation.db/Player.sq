@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS SessionInfo (
+trackedAt INTEGER NOT NULL,
+Id INTEGER NOT NULL PRIMARY KEY
+);
+
+insertSession:
+INSERT OR REPLACE INTO SessionInfo(trackedAt,Id)VALUES(?,?);
+
+selectSession:
+SELECT * FROM SessionInfo;
+
+CREATE TABLE IF NOT EXISTS Events (
+eventName TEXT NOT NULL,
+eventType TEXT NOT NULL,
+attributes TEXT,
+trackedAt INTEGER NOT NULL,
+sessionId INTEGER NOT NULL,
+FOREIGN KEY(sessionId) REFERENCES SessionInfo(Id)
+);
+
+insertEvent:
+INSERT OR REPLACE INTO Events(eventName, eventType, attributes, trackedAt, sessionId)VALUES(?,?,?,?,?);
+
+filterEventOnSessionId:
+SELECT *
+FROM Events
+WHERE sessionId =?;
+
+selectAll:
+SELECT * FROM Events;
+
+deleteAll:
+DELETE FROM Events;
